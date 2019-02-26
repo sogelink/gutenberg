@@ -29,6 +29,21 @@ create( {
 
 Create a RichText value from an `Element` tree (DOM), an HTML string or a plain text string, with optionally a `Range` object to set the selection. If called without any arguments, an empty value will be created. If `multilineTag` is provided, any content of direct children whose type matches `multilineTag` will be separated by a line separator.
 
+A value will have the following shape, which you are strongly encouraced not to modify without the use of helper functions:
+
+```js
+{
+	text: string,
+	formats: Array,
+	objects: Array,
+	lines: Array,
+	?start: number,
+	?end: number,
+}
+```
+
+As you can see, text and formatting are separated. `text` holds the text, including any replacement characters for objects and lines. `formats`, `objects` and `lines` are all sparse arrays of the same length as `text`. It holds information about the formatting at the relevant text indices. Finally `start` and `end` state which text indices are selected. They are only provided if a `Range` was given.
+
 ### toHTMLString
 
 ```js
