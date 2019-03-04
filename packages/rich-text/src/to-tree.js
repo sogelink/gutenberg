@@ -95,7 +95,7 @@ export function toTree( {
 	onEndIndex,
 	isEditableTree,
 } ) {
-	const { formats, lines, objects, text, start, end } = value;
+	const { formats, replacements, text, start, end } = value;
 	const formatsLength = formats.length + 1;
 	const tree = createEmpty();
 	const multilineFormat = { type: multilineTag };
@@ -120,7 +120,7 @@ export function toTree( {
 		// Set multiline tags in queue for building the tree.
 		if ( multilineTag ) {
 			if ( character === LINE_SEPARATOR ) {
-				characterFormats = lastSeparatorFormats = ( lines[ i ] || [] ).reduce( ( accumulator, format ) => {
+				characterFormats = lastSeparatorFormats = ( replacements[ i ] || [] ).reduce( ( accumulator, format ) => {
 					accumulator.push( format );
 					accumulator.push( multilineFormat );
 					return accumulator;
@@ -208,7 +208,7 @@ export function toTree( {
 
 		if ( character === OBJECT_REPLACEMENT_CHARACTER ) {
 			pointer = append( getParent( pointer ), fromFormat( {
-				...objects[ i ],
+				...replacements[ i ],
 				object: true,
 			} ) );
 			// Ensure pointer is text node.
